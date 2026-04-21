@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.env
+.DS_Store
+.vscode/
+client/.angular/
+client/node_modules/
+api/node_modules/
+api/.env

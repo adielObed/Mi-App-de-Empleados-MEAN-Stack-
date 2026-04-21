@@ -1,0 +1,54 @@
+<div class="view-container">
+  <div class="header">
+    <h1><mat-icon>account_tree</mat-icon> Organigrama Empresarial</h1>
+    <p>Visualización directa de la estructura organizacional y talento humano.</p>
+  </div>
+
+  <div class="stats-grid">
+    <mat-card class="stat-card mat-elevation-z4">
+      <mat-card-content>
+        <div class="stat-value">{{ departamentos.length }}</div>
+        <div class="stat-label">Departamentos</div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="stat-card mat-elevation-z4">
+      <mat-card-content>
+        <div class="stat-value">{{ empleados.length }}</div>
+        <div class="stat-label">Colaboradores Totales</div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="organigram-grid">
+    <mat-card *ngFor="let dept of departamentos" class="dept-card mat-elevation-z6">
+      <mat-card-header>
+        <div mat-card-avatar class="dept-avatar">
+          <mat-icon>business</mat-icon>
+        </div>
+        <mat-card-title>{{ dept.nombre }}</mat-card-title>
+        <mat-card-subtitle>ID Área: {{ dept.codigo }}</mat-card-subtitle>
+      </mat-card-header>
+      
+      <mat-card-content>
+        <h3 class="list-title">
+          <mat-icon>groups</mat-icon> 
+          Personal del Área ({{ obtenerEmpleadosPorDepto(dept.codigo).length }})
+        </h3>
+        
+        <mat-divider></mat-divider>
+
+        <mat-list>
+          <div *ngIf="obtenerEmpleadosPorDepto(dept.codigo).length === 0" class="empty-msg">
+            <mat-icon>info</mat-icon> Sin personal asignado.
+          </div>
+          <mat-list-item *ngFor="let emp of obtenerEmpleadosPorDepto(dept.codigo)">
+            <mat-icon matListItemIcon class="emp-icon">person</mat-icon>
+            <div matListItemTitle class="emp-name">{{ emp.nombre }} {{ emp.apellido1 }}</div>
+            <div matListItemLine>Código: {{ emp.codigo }}</div>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+</div>

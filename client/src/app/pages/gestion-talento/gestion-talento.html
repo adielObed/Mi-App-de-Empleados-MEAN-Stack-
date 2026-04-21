@@ -1,0 +1,105 @@
+<div class="container animate-fadeIn">
+  <mat-card class="form-card mat-elevation-z8">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon>{{ estaEditando ? 'edit' : 'person_add' }}</mat-icon>
+        {{ estaEditando ? 'Editar Colaborador' : 'Registro de Nuevo Talento' }}
+      </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="formularioEmpleado" (ngSubmit)="alEnviar()" class="employee-form">
+        <div class="form-grid">
+          <mat-form-field appearance="outline">
+            <mat-label>Código de Empleado</mat-label>
+            <input matInput formControlName="codigo" type="number" placeholder="Ej. 1001">
+            <mat-error *ngIf="formularioEmpleado.get('codigo')?.hasError('required')">Requerido</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Nombre</mat-label>
+            <input matInput formControlName="nombre" placeholder="Nombre completo">
+            <mat-error *ngIf="formularioEmpleado.get('nombre')?.hasError('required')">Requerido</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Primer Apellido</mat-label>
+            <input matInput formControlName="apellido1" placeholder="Apellido paterno">
+            <mat-error *ngIf="formularioEmpleado.get('apellido1')?.hasError('required')">Requerido</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Segundo Apellido</mat-label>
+            <input matInput formControlName="apellido2" placeholder="Apellido materno (opcional)">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Departamento</mat-label>
+            <mat-select formControlName="codigo_departamento">
+              <mat-option *ngFor="let dept of departamentos" [value]="dept.codigo">
+                {{ dept.nombre }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formularioEmpleado.get('codigo_departamento')?.hasError('required')">Seleccione uno</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-actions">
+          <button mat-flat-button color="primary" type="submit" [disabled]="formularioEmpleado.invalid">
+            <mat-icon>{{ estaEditando ? 'save' : 'add' }}</mat-icon>
+            {{ estaEditando ? 'ACTUALIZAR' : 'REGISTRAR' }}
+          </button>
+          <button mat-stroked-button color="warn" type="button" (click)="limpiarFormulario()" *ngIf="estaEditando">
+            CANCELAR
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="table-card mat-elevation-z8">
+    <mat-card-header>
+      <mat-card-title>Directorio de Talento Humano</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <table mat-table [dataSource]="empleados" class="full-width-table">
+        <ng-container matColumnDef="codigo">
+          <th mat-header-cell *matHeaderCellDef> Código </th>
+          <td mat-cell *matCellDef="let element"> {{element.codigo}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="nombre">
+          <th mat-header-cell *matHeaderCellDef> Nombre </th>
+          <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="apellidos">
+          <th mat-header-cell *matHeaderCellDef> Apellidos </th>
+          <td mat-cell *matCellDef="let element"> {{element.apellido1}} {{element.apellido2}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="departamento">
+          <th mat-header-cell *matHeaderCellDef> Área </th>
+          <td mat-cell *matCellDef="let element"> 
+            <span class="badge">{{ obtenerNombreDepto(element.codigo_departamento) }}</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="acciones">
+          <th mat-header-cell *matHeaderCellDef> Acciones </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button color="accent" (click)="editarEmpleado(element)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="eliminarEmpleado(element.codigo)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="columnasMostradas"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnasMostradas;" class="animate-row"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+</div>
