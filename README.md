@@ -1,5 +1,3 @@
-# TalentFlow Enterprise - Gestión de Talento MVP
-
 Sistema empresarial robusto para la gestión de estructura organizacional y talento humano, desarrollado con el stack MEAN (MongoDB, Express, Angular, Node.js).
 
 ## 🚀 Inicio Rápido
