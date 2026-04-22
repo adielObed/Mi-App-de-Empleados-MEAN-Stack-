@@ -8,10 +8,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
-
 import { DepartamentoServicio } from '../../services/departamento.servicio';
 import { Departamento } from '../../models/departamento.modelo';
-
 @Component({
   selector: 'app-gestion-estructura',
   standalone: true,
@@ -34,7 +32,6 @@ export class GestionEstructuraComponent implements OnInit {
   departamentos: Departamento[] = [];
   columnasMostradas: string[] = ['codigo', 'nombre', 'acciones'];
   estaEditando = false;
-
   constructor(
     private fb: FormBuilder,
     private departamentoServicio: DepartamentoServicio,
@@ -45,18 +42,14 @@ export class GestionEstructuraComponent implements OnInit {
       nombre: ['', [Validators.required, Validators.minLength(3)]]
     });
   }
-
   ngOnInit(): void {
     this.cargarDepartamentos();
   }
-
   cargarDepartamentos(): void {
     this.departamentoServicio.obtenerDepartamentos().subscribe(data => this.departamentos = data);
   }
-
   alEnviar(): void {
     if (this.formularioDepto.invalid) return;
-
     const datosDepto = this.formularioDepto.getRawValue();
     if (this.estaEditando) {
       this.departamentoServicio.actualizarDepartamento(datosDepto.codigo, datosDepto).subscribe({
@@ -78,13 +71,11 @@ export class GestionEstructuraComponent implements OnInit {
       });
     }
   }
-
   editarDepto(depto: Departamento): void {
     this.estaEditando = true;
     this.formularioDepto.patchValue(depto);
     this.formularioDepto.get('codigo')?.disable();
   }
-
   eliminarDepto(codigo: number): void {
     if (confirm('¿Eliminar este departamento? Esto podría afectar a los empleados asociados.')) {
       this.departamentoServicio.eliminarDepartamento(codigo).subscribe(() => {
@@ -93,7 +84,6 @@ export class GestionEstructuraComponent implements OnInit {
       });
     }
   }
-
   limpiarFormulario(): void {
     this.estaEditando = false;
     this.formularioDepto.reset();

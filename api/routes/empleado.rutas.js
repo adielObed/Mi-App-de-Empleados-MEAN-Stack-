@@ -1,8 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const Empleado = require('../models/Empleado');
-
-// Obtener todos
 router.get('/', async (req, res) => {
     try {
         const empleados = await Empleado.find();
@@ -11,8 +9,6 @@ router.get('/', async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 });
-
-// Crear
 router.post('/', async (req, res) => {
     const empleado = new Empleado({
         codigo: req.body.codigo,
@@ -28,8 +24,6 @@ router.post('/', async (req, res) => {
         res.status(400).json({ message: err.message });
     }
 });
-
-// Actualizar
 router.put('/:codigo', async (req, res) => {
     try {
         const empleado = await Empleado.findOneAndUpdate({ codigo: req.params.codigo }, req.body, { new: true });
@@ -39,8 +33,6 @@ router.put('/:codigo', async (req, res) => {
         res.status(400).json({ message: err.message });
     }
 });
-
-// Eliminar
 router.delete('/:codigo', async (req, res) => {
     try {
         const empleado = await Empleado.findOneAndDelete({ codigo: req.params.codigo });
@@ -50,5 +42,4 @@ router.delete('/:codigo', async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 });
-
 module.exports = router;
