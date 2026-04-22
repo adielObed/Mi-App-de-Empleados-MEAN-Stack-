@@ -32,3 +32,5 @@ Sistema empresarial robusto para la gestión de estructura organizacional y tale
 - **Gestión de Estructura**: CRUD de Departamentos.
 - **Gestión de Talento**: CRUD de Empleados con validación en tiempo real.
 - **Vista Organizacional**: Dashboard maestro que agrupa empleados por área.
+
+*La IA me facilitó el código inicial, pero yo me encargué de aplicarlo y validar que todo funcionara. Fue clave para entender a fondo cómo conectar Angular con Node y Mongo*
